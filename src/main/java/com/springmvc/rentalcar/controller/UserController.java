@@ -10,9 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/")
@@ -23,7 +27,33 @@ public class UserController {
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/"}, method=RequestMethod.GET)
+    public String getHomepage() {
+        return "index";
+    }
+
+    @RequestMapping(value={"/login"}, method=RequestMethod.POST)
+    public String checkLogin(HttpServletRequest request,
+                             @RequestParam("username") String username,
+                             @RequestParam("password") String password) {
+        String msg = "";
+        User user = userService.findByCredentials(username, password);
+
+        if (user != null) {
+            request.getSession().setAttribute("id", user.getId());
+            request.getSession().setAttribute("username", user.getUsername());
+            request.getSession().setAttribute("superUser", user.getSuperUser());
+
+            return "user-homepage";
+        } else {
+            msg = "Username o password errati";
+            request.getSession().setAttribute("msg", msg);
+
+            return "index";
+        }
+    }
+
+    @RequestMapping(value = {"/list" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
         List<User> users = userService.findAllUsers();
         model.addAttribute("listUsers", users);
@@ -34,19 +64,9 @@ public class UserController {
     @RequestMapping(value = { "/new" }, method = RequestMethod.POST)
     public String saveUser(@Valid User user, BindingResult result,
                            ModelMap model) {
-
         if (result.hasErrors()) {
             return "registration";
         }
-
-        /*
-         * Preferred way to achieve uniqueness of field [ssn] should be implementing custom @Unique annotation
-         * and applying it on field [ssn] of Model class [Employee].
-         *
-         * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-         * framework as well while still using internationalized messages.
-         *
-         */
 
         userService.saveUser(user);
 
@@ -54,10 +74,6 @@ public class UserController {
         return "success";
     }
 
-
-    /*
-     * This method will provide the medium to update an existing employee.
-     */
     @RequestMapping(value = { "/edit-{id}-user" }, method = RequestMethod.GET)
     public String editUser(@PathVariable int id, ModelMap model) {
         User user = userService.findById(id);
@@ -66,14 +82,9 @@ public class UserController {
         return "registration";
     }
 
-    /*
-     * This method will be called on form submission, handling POST request for
-     * updating employee in database. It also validates the user input
-     */
     @RequestMapping(value = { "/edit-{id}-user" }, method = RequestMethod.POST)
     public String updateEmployee(@Valid User user, BindingResult result,
                                  ModelMap model, @PathVariable int id) {
-
         if (result.hasErrors()) {
             return "registration";
         }
@@ -84,10 +95,6 @@ public class UserController {
         return "success";
     }
 
-
-    /*
-     * This method will delete an employee by it's SSN value.
-     */
     @RequestMapping(value = { "/delete-{id}-employee" }, method = RequestMethod.GET)
     public String deleteEmployee(@PathVariable int id) {
         userService.deleteUser(id);

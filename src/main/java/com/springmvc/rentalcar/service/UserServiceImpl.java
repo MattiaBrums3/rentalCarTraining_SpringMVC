@@ -19,6 +19,8 @@ public class UserServiceImpl implements UserService {
         return dao.findById(id);
     }
 
+    public User findByCredentials(String username, String password) { return dao.findByCredentials(username, password); }
+
     public void saveUser(User user) {
         dao.saveUser(user);
     }
