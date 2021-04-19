@@ -118,14 +118,15 @@ public class UserController {
     }
 
     @RequestMapping(value = { "/deleteUser_{id}" }, method = RequestMethod.GET)
-    public String deleteEmployee(HttpServletRequest request,
-                                 @PathVariable int id) {
+    public String deleteUser(HttpServletRequest request,
+                             @PathVariable int id) {
         HttpSession session = request.getSession();
         String msg = "";
 
         userService.deleteUser(id);
         msg = "Utente eliminato con successo";
         session.setAttribute("msg", msg);
+
         return "redirect:/user";
     }
 }

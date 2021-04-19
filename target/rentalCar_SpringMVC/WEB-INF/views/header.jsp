@@ -23,7 +23,7 @@
                 <a class="nav-link" href="vehicle">PARCO AUTO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="editUser?id=${sessionScope.id}">PROFILO UTENTE</a>
+                <a class="nav-link" href="editUser_${sessionScope.id}">PROFILO UTENTE</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="logout" method="post">

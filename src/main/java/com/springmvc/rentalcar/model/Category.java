@@ -1,5 +1,7 @@
 package com.springmvc.rentalcar.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,6 +13,7 @@ public class Category implements Serializable {
     @Column(name = "idCategory")
     private int id;
 
+    @NotEmpty(message="{NotEmpty.category.typology}")
     @Column(name = "typology")
     private String typology;
 
