@@ -1,8 +1,10 @@
 package com.springmvc.rentalcar.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,31 +16,30 @@ public class User implements Serializable {
     @Column(name = "idUser")
     private int id;
 
-    @NotEmpty
+    @NotEmpty(message="{NotEmpty.user.name}")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message="{NotEmpty.user.surname}")
     @Column(name = "surname")
     private String surname;
 
-    @NotEmpty
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
 
-    @NotEmpty
+    @NotEmpty(message="{NotEmpty.user.fiscalCode}")
     @Column(name = "fiscalCode")
     private String fiscalCode;
 
-    @NotEmpty
     @Column(name = "superUser",columnDefinition = "TINYINT")
     private Boolean superUser;
 
-    @NotEmpty
+    @NotEmpty(message="{NotEmpty.user.username}")
     @Column(name = "username")
     private String username;
 
-    @NotEmpty
+    @NotEmpty(message="{NotEmpty.user.password}")
     @Column(name = "password")
     private String password;
 

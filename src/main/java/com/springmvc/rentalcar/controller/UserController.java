@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
-    public String showNewUserForm(ModelMap model) {
+    public String showNewUserForm() {
         return "user-form";
     }
 
@@ -94,10 +94,9 @@ public class UserController {
     }
 
     @RequestMapping(value = { "/insertUser" }, method = RequestMethod.POST)
-    public String insertUser(@Valid User user, BindingResult result,
-                             ModelMap model) {
+    public String insertUser(@Valid User user,
+                             BindingResult result) {
         if (result.hasErrors()){
-            System.out.println("errors");
             return "redirect:/user";
         }
 
@@ -106,23 +105,24 @@ public class UserController {
         return "redirect:/user";
     }
 
-
-    @RequestMapping(value = { "/edit-{id}-user" }, method = RequestMethod.POST)
-    public String updateEmployee(@Valid User user, BindingResult result,
-                                 ModelMap model, @PathVariable int id) {
-        if (result.hasErrors()) {
-            return "registration";
+    @RequestMapping(value = { "/updateUser" }, method = RequestMethod.POST)
+    public String updateUser(@Valid User user,
+                             BindingResult result) {
+        if (result.hasErrors()){
+            return "redirect:/user";
         }
 
         userService.updateUser(user);
 
-        model.addAttribute("success", "User " + user.getName()  + " updated successfully");
-        return "success";
+        return "redirect:/user";
     }
 
-    @RequestMapping(value = { "/delete-{id}-employee" }, method = RequestMethod.GET)
-    public String deleteEmployee(@PathVariable int id) {
+    @RequestMapping(value = { "/deleteUser_{id}" }, method = RequestMethod.GET)
+    public String deleteEmployee(HttpServletRequest request,
+                                 @PathVariable int id) {
+        HttpSession session = request.getSession();
+
         userService.deleteUser(id);
-        return "redirect:/list";
+        return "redirect:/user";
     }
 }

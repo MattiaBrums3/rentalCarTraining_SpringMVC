@@ -22,6 +22,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     }
 
     public void saveUser(User user) {
+        user.setSuperUser(false);
         persist(user);
     }
 
