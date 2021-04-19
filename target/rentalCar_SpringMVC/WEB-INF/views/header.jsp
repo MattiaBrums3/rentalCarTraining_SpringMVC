@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link href="webjars/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="webjars/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="webjars/datatables/1.10.24/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="webjars/datatables/1.10.24/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" type="text/css" href="static/css/css-form.css" />
 </head>
 <body>

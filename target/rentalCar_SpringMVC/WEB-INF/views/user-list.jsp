@@ -45,11 +45,11 @@
                 <td><c:out value="${user.username}" /></td>
                 <td>
                     <div class="d-flex justify-content-center">
-                        <a href="editUser?id=<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Modifica" /></a>
+                        <a href="editUser_<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Modifica" /></a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="deleteUser?id=<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Elimina" /></a>
+                        <a href="deleteUser_<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Elimina" /></a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="rentals?id=<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Prenotazioni" /></a>
+                        <a href="rentals_<c:out value='${user.id}' />"><input type="button" class="btnTable" value="Prenotazioni" /></a>
                     </div>
                 </td>
             </tr>

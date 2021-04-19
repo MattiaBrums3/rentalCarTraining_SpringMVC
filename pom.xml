@@ -11,8 +11,8 @@
     <name>rentalCar_SpringMVC</name>
 
     <properties>
-        <springframework.version>4.3.6.RELEASE</springframework.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <springframework.version>4.0.6.RELEASE</springframework.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
         <mysql.connector.version>8.0.23</mysql.connector.version>
     </properties>
 
@@ -91,6 +91,23 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
+        <!-- WebJars jQuery, Bootstrap and DataTables -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>datatables</artifactId>
+            <version>1.10.24</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -99,6 +116,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.2</version>
                     <configuration>
                         <source>16</source>
                         <target>16</target>
@@ -107,7 +125,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.1.1</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
                         <warName>rentalCar_SpringMVC</warName>
@@ -116,6 +134,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+        </plugins>
         <finalName>rentalCar_SpringMVC</finalName>
     </build>
 

@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -33,54 +38,74 @@ public class UserController {
     }
 
     @RequestMapping(value={"/login"}, method=RequestMethod.POST)
-    public String checkLogin(HttpServletRequest request,
+    public ModelAndView checkLogin(HttpServletRequest request,
+                             HttpServletResponse response,
                              @RequestParam("username") String username,
-                             @RequestParam("password") String password) {
+                             @RequestParam("password") String password) throws IOException {
         String msg = "";
+        HttpSession session = request.getSession();
         User user = userService.findByCredentials(username, password);
 
         if (user != null) {
-            request.getSession().setAttribute("id", user.getId());
-            request.getSession().setAttribute("username", user.getUsername());
-            request.getSession().setAttribute("superUser", user.getSuperUser());
+            session.setAttribute("id", user.getId());
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("superUser", user.getSuperUser());
 
-            return "user-homepage";
+            return new ModelAndView("redirect:/user");
         } else {
             msg = "Username o password errati";
-            request.getSession().setAttribute("msg", msg);
+            session.setAttribute("msg", msg);
 
-            return "index";
+            return new ModelAndView("redirect:/");
         }
     }
 
-    @RequestMapping(value = {"/list" }, method = RequestMethod.GET)
+    @RequestMapping(value={"/logout"}, method=RequestMethod.POST)
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("id");
+        request.getSession().removeAttribute("username");
+        request.getSession().removeAttribute("superUser");
+        String msg = "A presto!";
+        request.getSession().setAttribute("msg", msg);
+
+        return "index";
+    }
+
+    @RequestMapping(value = {"/user" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
         List<User> users = userService.findAllUsers();
         model.addAttribute("listUsers", users);
 
-        return "user-list";
+        return "user-homepage";
     }
 
-    @RequestMapping(value = { "/new" }, method = RequestMethod.POST)
-    public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model) {
-        if (result.hasErrors()) {
-            return "registration";
+    @RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
+    public String showNewUserForm(ModelMap model) {
+        return "user-form";
+    }
+
+    @RequestMapping(value = { "/editUser_{id}" }, method = RequestMethod.GET)
+    public String showEditUserForm(@PathVariable int id,
+                                   ModelMap model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+
+        return "user-form";
+    }
+
+    @RequestMapping(value = { "/insertUser" }, method = RequestMethod.POST)
+    public String insertUser(@Valid User user, BindingResult result,
+                             ModelMap model) {
+        if (result.hasErrors()){
+            System.out.println("errors");
+            return "redirect:/user";
         }
 
         userService.saveUser(user);
 
-        model.addAttribute("success", "User " + user.getName() + " registered successfully");
-        return "success";
+        return "redirect:/user";
     }
 
-    @RequestMapping(value = { "/edit-{id}-user" }, method = RequestMethod.GET)
-    public String editUser(@PathVariable int id, ModelMap model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("edit", true);
-        return "registration";
-    }
 
     @RequestMapping(value = { "/edit-{id}-user" }, method = RequestMethod.POST)
     public String updateEmployee(@Valid User user, BindingResult result,
