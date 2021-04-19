@@ -121,8 +121,11 @@ public class UserController {
     public String deleteEmployee(HttpServletRequest request,
                                  @PathVariable int id) {
         HttpSession session = request.getSession();
+        String msg = "";
 
         userService.deleteUser(id);
+        msg = "Utente eliminato con successo";
+        session.setAttribute("msg", msg);
         return "redirect:/user";
     }
 }
