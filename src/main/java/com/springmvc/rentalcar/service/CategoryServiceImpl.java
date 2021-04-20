@@ -28,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public void updateCategory(Category category) {
         Category entity = dao.findById(category.getId());
+
         if (entity != null) {
             entity.setTypology(category.getTypology());
         }

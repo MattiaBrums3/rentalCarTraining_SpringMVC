@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
 
     public void updateUser(User user) {
         User entity = dao.findById(user.getId());
-        if(entity!=null){
+
+        if(entity != null){
             entity.setName(user.getName());
             entity.setSurname(user.getSurname());
             entity.setDateOfBirth(user.getDateOfBirth());

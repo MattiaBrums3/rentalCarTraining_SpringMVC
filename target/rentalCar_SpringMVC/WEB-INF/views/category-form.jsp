@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <c:if test="${category != null}">
@@ -17,6 +18,22 @@
     <div class="register">
         <div class="row">
             <div class="col-sm register-right">
+                <c:choose>
+                    <c:when test="category != null">
+                        <form:form action="updateCategory" method="post" modelAttribute="category">
+
+                        </form:form>
+                    </c:when>
+                    <c:otherwise>
+                        <form:form action="insertCategory" method="post" modelAttribute="category">
+
+                        </form:form>
+                    </c:otherwise>
+                </c:choose>
+
+
+
+
                 <c:if test="${category != null}">
                     <form action="updateCategory" method="post" modelAttribute="category">
                 </c:if>

@@ -29,6 +29,7 @@ public class CategoryController {
     public String listCategories(ModelMap model) {
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("listCategories", categories);
+
         return "categories";
     }
 

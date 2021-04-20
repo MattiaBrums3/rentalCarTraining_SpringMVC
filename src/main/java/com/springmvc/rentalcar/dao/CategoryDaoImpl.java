@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository("categoryDao")
@@ -29,9 +30,10 @@ public class CategoryDaoImpl extends AbstractDao<Integer, Category> implements C
         Category category = (Category)c.uniqueResult();
         delete(category);
     }
-
+    @SuppressWarnings("unchecked")
+    @Transactional
     public List<Category> findAllCategories() {
-        Criteria criteria = createEntityCriteria();
+        Criteria criteria = createEntityCriteria().setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<Category>) criteria.list();
     }
 }
