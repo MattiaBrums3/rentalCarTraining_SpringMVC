@@ -37,7 +37,7 @@ public class VehicleController {
     public String showNewVehicleForm(ModelMap model) {
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("listCategories", categories);
-
+        System.out.println(categories);
         return "vehicle-form";
     }
 }
