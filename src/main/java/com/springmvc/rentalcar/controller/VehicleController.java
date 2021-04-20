@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -37,7 +40,33 @@ public class VehicleController {
     public String showNewVehicleForm(ModelMap model) {
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("listCategories", categories);
-        System.out.println(categories);
+
         return "vehicle-form";
     }
+
+    @RequestMapping(value = { "/editVehicle_{id}" }, method = RequestMethod.GET)
+    public String showEditVehicleForm(@PathVariable int id,
+                                      ModelMap model) {
+        Vehicle vehicle = vehicleService.findById(id);
+        List<Category> listCategories = categoryService.findAllCategories();
+        model.addAttribute("vehicle", vehicle);
+        model.addAttribute("listCategories", listCategories);
+
+        return "vehicle-form";
+    }
+
+    @RequestMapping(value = { "/insertVehicle" }, method = RequestMethod.POST)
+    public String insertVehicle(@Valid Vehicle vehicle,
+                                BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/vehicle";
+        }
+        System.out.println(vehicle);
+
+        vehicleService.saveVehicle(vehicle);
+
+        return "redirect:/vehicle";
+    }
+
+
 }

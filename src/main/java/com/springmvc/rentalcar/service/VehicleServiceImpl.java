@@ -34,6 +34,7 @@ public class VehicleServiceImpl implements VehicleService {
             entity.setManufacturer(vehicle.getManufacturer());
             entity.setLicensePlate(vehicle.getLicensePlate());
             entity.setYearOfRegistration(vehicle.getYearOfRegistration());
+            entity.setCategory(vehicle.getCategory());
         }
     }
 
