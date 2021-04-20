@@ -38,7 +38,9 @@ public class VehicleController {
 
     @RequestMapping(value = { "/newVehicle" }, method = RequestMethod.GET)
     public String showNewVehicleForm(ModelMap model) {
+        Vehicle vehicle = new Vehicle();
         List<Category> categories = categoryService.findAllCategories();
+        model.addAttribute("vehicle", vehicle);
         model.addAttribute("listCategories", categories);
 
         return "vehicle-form";
@@ -57,16 +59,16 @@ public class VehicleController {
 
     @RequestMapping(value = { "/insertVehicle" }, method = RequestMethod.POST)
     public String insertVehicle(@Valid Vehicle vehicle,
+                                @Valid Category category,
                                 BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/vehicle";
         }
-        System.out.println(vehicle);
 
+        Category c = categoryService.findByTypology(category.getTypology());
+        vehicle.setCategory(c);
         vehicleService.saveVehicle(vehicle);
 
         return "redirect:/vehicle";
     }
-
-
 }
