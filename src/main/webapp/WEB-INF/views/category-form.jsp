@@ -28,7 +28,7 @@
                                     <div class="row register-form d-flex justify-content-center">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" required="required" />
+                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" title="Tipologia" required="required" />
                                                 <form:errors path="typology" class="form-control" />
                                             </div>
                                             <input type="submit" value="Modifica" class="btnRegister" />
@@ -42,7 +42,7 @@
                                     <div class="row register-form d-flex justify-content-center">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" required="required" />
+                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" title="Tipologia" required="required" />
                                                 <form:errors path="typology" class="form-control" />
                                             </div>
                                             <input type="submit" value="Inserisci" class="btnRegister" />

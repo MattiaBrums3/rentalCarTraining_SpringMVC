@@ -80,7 +80,11 @@ public class UserController {
     }
 
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
-    public String showNewUserForm() {
+    public String showNewUserForm(ModelMap model) {
+        User user = new User();
+        System.out.println(user);
+        model.addAttribute("user", user);
+
         return "user-form";
     }
 

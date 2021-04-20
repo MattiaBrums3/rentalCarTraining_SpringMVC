@@ -36,7 +36,7 @@ public class CategoryController {
     @RequestMapping(value = { "/newCategory" }, method = RequestMethod.GET)
     public String showNewCategoryForm(ModelMap model) {
         Category category = new Category();
-        System.out.println(category);
+
         model.addAttribute("category", category);
 
         return "category-form";
