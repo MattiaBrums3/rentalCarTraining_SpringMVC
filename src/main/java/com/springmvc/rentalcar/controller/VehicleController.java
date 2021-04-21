@@ -1,8 +1,12 @@
 package com.springmvc.rentalcar.controller;
 
 import com.springmvc.rentalcar.model.Category;
+import com.springmvc.rentalcar.model.Rental;
+import com.springmvc.rentalcar.model.User;
 import com.springmvc.rentalcar.model.Vehicle;
 import com.springmvc.rentalcar.service.CategoryService;
+import com.springmvc.rentalcar.service.RentalService;
+import com.springmvc.rentalcar.service.UserService;
 import com.springmvc.rentalcar.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -28,12 +32,25 @@ public class VehicleController {
     CategoryService categoryService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
+    RentalService rentalService;
+
+    @Autowired
     MessageSource messageSource;
 
     @RequestMapping(value = { "/vehicle" }, method = RequestMethod.GET)
-    public String listVehicles(ModelMap model) {
+    public String listVehicles(HttpServletRequest request,
+                               ModelMap model) {
+        HttpSession session = request.getSession();
+        int idUser = (int)session.getAttribute("id");
         List<Vehicle> vehicles = vehicleService.findAllVehicles();
+        User user = userService.findById(idUser);
+        List<Rental> listRentals = rentalService.findAllRentals();
         model.addAttribute("listVehicles", vehicles);
+        model.addAttribute("user", user);
+        model.addAttribute("listRentals", listRentals);
 
         return "vehicles";
     }
