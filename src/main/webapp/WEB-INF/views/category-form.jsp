@@ -20,37 +20,29 @@
             <div class="col-sm register-right">
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <c:choose>
-                            <c:when test="${category.id != 0}">
-                                <form:form action="updateCategory" method="post" modelAttribute="category">
-                                    <h3 class="register-heading">Modifica Categoria</h3>
-                                    <form:hidden path="id" />
-                                    <div class="row register-form d-flex justify-content-center">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" title="Tipologia" required="required" />
-                                                <form:errors path="typology" class="form-control" />
-                                            </div>
-                                            <input type="submit" value="Modifica" class="btnRegister" />
-                                        </div>
+                        <c:if test="${category.id == 0}">
+                            <h3 class="register-heading">Nuova Categoria</h3>
+                        </c:if>
+                        <c:if test="${category.id != 0}">
+                            <h3 class="register-heading">Modifica Categoria</h3>
+                        </c:if>
+                        <form:form action="insertUpdateCategory" method="post" modelAttribute="category">
+                            <form:hidden path="id" />
+                            <div class="row register-form d-flex justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" title="Tipologia" required="required" />
+                                        <form:errors path="typology" class="form-control" />
                                     </div>
-                                </form:form>
-                            </c:when>
-                            <c:otherwise>
-                                <form:form action="insertCategory" method="post" modelAttribute="category">
-                                    <h3 class="register-heading">Nuova Categoria</h3>
-                                    <div class="row register-form d-flex justify-content-center">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <form:input type="text" class="form-control" id="typology" path="typology" placeholder="TIPOLOGIA *" title="Tipologia" required="required" />
-                                                <form:errors path="typology" class="form-control" />
-                                            </div>
-                                            <input type="submit" value="Inserisci" class="btnRegister" />
-                                        </div>
-                                    </div>
-                                </form:form>
-                            </c:otherwise>
-                        </c:choose>
+                                    <c:if test="${category.id == 0}">
+                                        <input type="submit" value="Inserisci" class="btnRegister" />
+                                    </c:if>
+                                    <c:if test="${category.id != 0}">
+                                        <input type="submit" value="Modifica" class="btnRegister" />
+                                    </c:if>
+                                </div>
+                            </div>
+                        </form:form>
                     </div>
                 </div>
             </div>

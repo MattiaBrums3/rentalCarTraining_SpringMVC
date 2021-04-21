@@ -51,26 +51,19 @@ public class CategoryController {
         return "category-form";
     }
 
-    @RequestMapping(value = { "/insertCategory" }, method = RequestMethod.POST)
-    public String insertCategory(@Valid Category category,
+    @RequestMapping(value = { "/insertUpdateCategory" }, method = RequestMethod.POST)
+    public String insertUpdateCategory(@Valid Category category,
                                  BindingResult result) {
         if (result.hasErrors()) {
             return "redirect:/category";
         }
 
-        categoryService.saveCategory(category);
-
-        return "redirect:/category";
-    }
-
-    @RequestMapping(value = { "/updateCategory" }, method = RequestMethod.POST)
-    public String updateCategory(@Valid Category category,
-                                 BindingResult result) {
-        if (result.hasErrors()) {
-            return "redirect:/category";
+        if (category.getId() == 0) {
+            categoryService.saveCategory(category);
+        } else {
+            categoryService.updateCategory(category);
         }
 
-        categoryService.updateCategory(category);
 
         return "redirect:/category";
     }

@@ -97,26 +97,18 @@ public class UserController {
         return "user-form";
     }
 
-    @RequestMapping(value = { "/insertUser" }, method = RequestMethod.POST)
-    public String insertUser(@Valid User user,
+    @RequestMapping(value = { "/insertUpdateUser" }, method = RequestMethod.POST)
+    public String insertUpdateUser(@Valid User user,
                              BindingResult result) {
         if (result.hasErrors()){
             return "redirect:/user";
         }
 
-        userService.saveUser(user);
-
-        return "redirect:/user";
-    }
-
-    @RequestMapping(value = { "/updateUser" }, method = RequestMethod.POST)
-    public String updateUser(@Valid User user,
-                             BindingResult result) {
-        if (result.hasErrors()){
-            return "redirect:/user";
+        if (user.getId() == 0) {
+            userService.saveUser(user);
+        } else {
+            userService.updateUser(user);
         }
-
-        userService.updateUser(user);
 
         return "redirect:/user";
     }
