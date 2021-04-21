@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="static/css/css-form.css" type="text/css" />
     <link href="webjars/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="webjars/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <c:if test="${user != null}">
+    <c:if test="${user.id != 0}">
         <title>Modifica Utente</title>
     </c:if>
-    <c:if test="${user == null}">
+    <c:if test="${user.id == 0}">
         <title>Nuovo Utente</title>
     </c:if>
 </head>
@@ -29,6 +29,7 @@
                         </c:if>
                         <form:form action="insertUpdateUser" method="post" modelAttribute="user">
                             <form:hidden path="id" />
+                            <form:hidden path="superUser" />
                             <div class="row register-form d-flex justify-content-center">
                                 <div class="col-md-6">
                                     <div class="form-group">

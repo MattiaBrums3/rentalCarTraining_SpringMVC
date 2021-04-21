@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -42,6 +43,9 @@ public class User implements Serializable {
     @NotEmpty(message="{NotEmpty.user.password}")
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    List<Rental> rentals;
 
     public User() {}
 
@@ -129,6 +133,10 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Rental> getRentals() { return rentals; }
+
+    public void setRentals(List<Rental> rentals) { this.rentals = rentals; }
 
     @Override
     public String toString() {

@@ -23,7 +23,6 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     public void saveVehicle(Vehicle vehicle) {
-
         dao.saveVehicle(vehicle);
     }
 

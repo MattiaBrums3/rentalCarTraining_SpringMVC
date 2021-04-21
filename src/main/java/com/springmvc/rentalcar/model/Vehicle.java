@@ -3,7 +3,9 @@ package com.springmvc.rentalcar.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -13,15 +15,12 @@ public class Vehicle implements Serializable {
     @Column(name = "idVehicle")
     private int id;
 
-    @NotEmpty(message="{NotEmpty.vehicle.model}")
     @Column(name = "model")
     private String model;
 
-    @NotEmpty(message="{NotEmpty.vehicle.manufacturer}")
     @Column(name = "manufacturer")
     private String manufacturer;
 
-    @NotEmpty(message="{NotEmpty.vehicle.licensePlate}")
     @Column(name = "licensePlate")
     private String license_plate;
 
@@ -32,8 +31,8 @@ public class Vehicle implements Serializable {
     @JoinColumn(name="idCategory")
     private Category category;
 
-    /*@OneToMany(mappedBy = "vehicle", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    List<Rental> rentals;*/
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.DETACH)
+    List<Rental> rentals;
 
     public Vehicle() {}
 
@@ -98,9 +97,9 @@ public class Vehicle implements Serializable {
 
     public void setCategory(Category category) { this.category = category; }
 
-    /*public List<Rental> getRentals() { return rentals; }
+    public List<Rental> getRentals() { return rentals; }
 
-    public void setRentals(List<Rental> rentals) { this.rentals = rentals; }*/
+    public void setRentals(List<Rental> rentals) { this.rentals = rentals; }
 
     @Override
     public String toString() {

@@ -1,6 +1,8 @@
 package com.springmvc.rentalcar.controller;
 
+import com.springmvc.rentalcar.model.Rental;
 import com.springmvc.rentalcar.model.User;
+import com.springmvc.rentalcar.service.RentalService;
 import com.springmvc.rentalcar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -28,6 +30,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    RentalService rentalService;
 
     @Autowired
     MessageSource messageSource;
@@ -72,9 +77,18 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/user" }, method = RequestMethod.GET)
-    public String listUsers(ModelMap model) {
-        List<User> users = userService.findAllUsers();
-        model.addAttribute("listUsers", users);
+    public String listUsers(HttpServletRequest request,
+                            ModelMap model) {
+        HttpSession session = request.getSession();
+        Boolean superUser = (Boolean) session.getAttribute("superUser");
+
+        if (superUser == true) {
+            List<User> users = userService.findAllUsers();
+            model.addAttribute("listUsers", users);
+        } else {
+            List<Rental> rentals = rentalService.findByUserId((int) session.getAttribute("id"));
+            model.addAttribute("listRentals", rentals);
+        }
 
         return "user-homepage";
     }
@@ -82,7 +96,6 @@ public class UserController {
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
     public String showNewUserForm(ModelMap model) {
         User user = new User();
-        System.out.println(user);
         model.addAttribute("user", user);
 
         return "user-form";

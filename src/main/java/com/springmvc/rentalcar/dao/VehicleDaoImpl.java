@@ -34,7 +34,7 @@ public class VehicleDaoImpl extends AbstractDao<Integer, Vehicle> implements Veh
     @SuppressWarnings("unchecked")
     @Transactional
     public List<Vehicle> findAllVehicles() {
-        Criteria c = createEntityCriteria();
+        Criteria c = createEntityCriteria().setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);;
         return (List<Vehicle>) c.list();
     }
 }

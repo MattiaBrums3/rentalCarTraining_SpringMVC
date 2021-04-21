@@ -3,10 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <c:if test="${category != null}">
+    <c:if test="${category.id != 0}">
         <title>Modifica Categoria</title>
     </c:if>
-    <c:if test="${category == null}">
+    <c:if test="${category.id == 0}">
         <title>Nuova Categoria</title>
     </c:if>
     <link href="webjars/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">

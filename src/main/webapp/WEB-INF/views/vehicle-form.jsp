@@ -3,10 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <c:if test="${vehicle != null}">
+    <c:if test="${vehicle.id != 0}">
         <title>Modifica Veicolo</title>
     </c:if>
-    <c:if test="${vehicle == null}">
+    <c:if test="${vehicle.id == 0}">
         <title>Nuovo Veicolo</title>
     </c:if>
     <link href="webjars/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">

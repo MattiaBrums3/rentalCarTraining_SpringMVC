@@ -98,9 +98,9 @@
                                                         <fmt:parseDate var="sd" value="${sd_not_parsed}" pattern="dd-MM-yyyy" />
 
                                                         <c:if test="${((today.time - sd.time) / (60 * 60 * 1000)) gt 48 && rental.approved == false}">
-                                                            <a href="editRental?id=<c:out value='${rental.id}' />"><input type="button" class="btnTable" value="Modifica" /></a>
+                                                            <a href="editRental_<c:out value='${rental.id}' />"><input type="button" class="btnTable" value="Modifica" /></a>
                                                             &nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <a href="deleteRental?id=<c:out value='${rental.id}' />"><input type="button" class="btnTable" value="Elimina" /></a>
+                                                            <a href="deleteRental_<c:out value='${rental.id}' />"><input type="button" class="btnTable" value="Elimina" /></a>
                                                         </c:if>
                                                         <c:if test="${((today.time - sd.time) / (60 * 60 * 1000)) lt 48 || rental.approved == true}">
                                                             Non modificabile.

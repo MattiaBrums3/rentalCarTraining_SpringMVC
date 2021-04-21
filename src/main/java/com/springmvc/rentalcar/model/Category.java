@@ -18,7 +18,7 @@ public class Category implements Serializable {
     @Column(name = "typology")
     private String typology;
 
-    @OneToMany(mappedBy="category", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy="category", cascade = CascadeType.DETACH)
     private List<Vehicle> vehicles;
 
     public Category() {}
