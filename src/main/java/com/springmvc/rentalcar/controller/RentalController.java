@@ -82,17 +82,25 @@ public class RentalController {
     }
 
     @RequestMapping(value = { "/insertUpdateRental" }, method = RequestMethod.POST)
-    public String insertUpdateRental(@ModelAttribute(value="rental") @Valid Rental rental,
-                                     BindingResult rental_result) {
-        System.out.println(rental);
+    public String insertUpdateRental(@Valid Rental rental,
+                                     BindingResult rental_result,
+                                     HttpServletRequest request) {
+
         if (rental_result.hasErrors()) {
             System.out.println("errore");
             return "redirect:/user";
         }
 
+        HttpSession session = request.getSession();
+
         if (rental.getId() == 0) {
             rentalService.saveRental(rental);
         } else {
+            Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
+            User u = userService.findById((int)session.getAttribute("id"));
+            rental.setUser(u);
+            rental.setVehicle(v);
+            rental.setApproved(rental.getApproved());
             rentalService.updateRental(rental);
         }
 

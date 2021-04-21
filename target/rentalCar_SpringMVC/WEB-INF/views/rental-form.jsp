@@ -29,10 +29,11 @@
                             </c:if>
                             <form:form action="insertUpdateRental" method="post" modelAttribute="rental">
                                 <form:hidden path="id" />
+                                <form:hidden path="approved" />
                                 <div class="row register-form d-flex justify-content-center">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <form:select id="vehicle" path="vehicle" class="form-control" title="Veicolo" required="required">
+                                            <form:select id="vehicle" path="vehicle.model" class="form-control" title="Veicolo" required="required">
                                                 <form:option value="${vehicle.model}" selected="selected">${vehicle.model}</form:option>
                                             </form:select>
                                         </div>
