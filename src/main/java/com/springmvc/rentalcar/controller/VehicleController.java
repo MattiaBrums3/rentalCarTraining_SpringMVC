@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -57,8 +59,8 @@ public class VehicleController {
         return "vehicle-form";
     }
 
-    @RequestMapping(value = { "/insertVehicle" }, method = RequestMethod.POST)
-    public String insertVehicle(@Valid Vehicle vehicle,
+    @RequestMapping(value = { "/insertUpdateVehicle" }, method = RequestMethod.POST)
+    public String insertUpdateVehicle(@Valid Vehicle vehicle,
                                 @Valid Category category,
                                 BindingResult result) {
         if (result.hasErrors()) {
@@ -67,7 +69,26 @@ public class VehicleController {
 
         Category c = categoryService.findByTypology(category.getTypology());
         vehicle.setCategory(c);
-        vehicleService.saveVehicle(vehicle);
+
+        if (vehicle.getId() == 0) {
+            vehicleService.saveVehicle(vehicle);
+        } else {
+            vehicleService.updateVehicle(vehicle);
+        }
+
+
+        return "redirect:/vehicle";
+    }
+
+    @RequestMapping(value = { "/deleteVehicle_{id}" }, method = RequestMethod.GET)
+    public String deleteVehicle(HttpServletRequest request,
+                                @PathVariable int id) {
+        HttpSession session = request.getSession();
+        String msg = "";
+
+        vehicleService.deleteVehicle(id);
+        msg = "Veicolo eliminato con successo";
+        session.setAttribute("msg", msg);
 
         return "redirect:/vehicle";
     }
