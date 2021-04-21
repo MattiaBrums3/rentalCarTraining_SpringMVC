@@ -74,8 +74,15 @@ public class CategoryController {
         HttpSession session = request.getSession();
         String msg = "";
 
-        categoryService.deleteCategory(id);
-        msg = "Categoria eliminata con successo";
+        Category category = categoryService.findById(id);
+
+        if (category.getVehicles().isEmpty()) {
+            categoryService.deleteCategory(id);
+            msg = "Categoria eliminata con successo";
+        } else {
+            msg = "Impossibile eliminare. Categoria utilizzata per uno o più veicoli.";
+        }
+
         session.setAttribute("msg", msg);
 
         return "redirect:/category";
