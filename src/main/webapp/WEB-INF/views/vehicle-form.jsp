@@ -41,22 +41,8 @@
                                         </div>
                                         <div class="form-group">
                                             <form:select id="category" path="category" class="form-control" title="Categoria" required="required">
-                                                <c:if test="${vehicle.id == 0}">
-                                                    <form:option selected="selected" value="0">CATEGORIA *</form:option>
-                                                    <c:forEach var="c" items="${listCategories}">
-                                                        <form:option value="${c.typology}">${c.typology}</form:option>
-                                                    </c:forEach>
-                                                </c:if>
-                                                <c:if test="${vehicle.id != 0}">
-                                                    <c:forEach var="c" items="${listCategories}">
-                                                        <c:if test="${c.id == vehicle.category.id}">
-                                                            <form:option selected="selected" value="${c.typology}">${category.typology}</form:option>
-                                                        </c:if>
-                                                        <c:if test="${c.id != vehicle.category.id}">
-                                                            <form:option value="${c.typology}">${c.typology}</form:option>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </c:if>
+                                                <form:option value="NONE" label="CATEGORIA *" />
+                                                <form:options items="${listCategories}" itemValue="typology" itemLabel="typology" />
                                             </form:select>
                                         </div>
                                     </div>

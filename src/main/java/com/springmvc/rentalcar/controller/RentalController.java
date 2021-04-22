@@ -80,26 +80,20 @@ public class RentalController {
         Rental rental = rentalService.findById(id);
         Vehicle vehicle = rental.getVehicle();
         model.addAttribute("rental", rental);
-        model.addAttribute("vehicle", vehicle);
 
         return "rental-form";
     }
 
     @RequestMapping(value = { "/insertUpdateRental" }, method = RequestMethod.POST)
     public String insertUpdateRental(@Valid Rental rental,
-                                     BindingResult rental_result,
+                                     BindingResult result,
                                      HttpServletRequest request) {
 
-        if (rental_result.hasErrors()) {
+        if (result.hasErrors()) {
             return "redirect:/user";
         }
 
         HttpSession session = request.getSession();
-        Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
-        User u = userService.findById((int)session.getAttribute("id"));
-        rental.setUser(u);
-        rental.setVehicle(v);
-
         Date dateStart = rental.getDateOfStart();
         Date dateEnd = rental.getDateOfEnd();
         if(dateStart.getTime() > dateEnd.getTime()) {
@@ -107,6 +101,11 @@ public class RentalController {
             session.setAttribute("msg", msg);
             return "redirect:/user";
         }
+
+        Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
+        User u = userService.findById((int)session.getAttribute("id"));
+        rental.setUser(u);
+        rental.setVehicle(v);
 
         if (rental.getId() == 0) {
             rental.setApproved(false);
