@@ -33,9 +33,8 @@
                                 <div class="row register-form d-flex justify-content-center">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <form:select id="vehicle" path="vehicle.model" class="form-control" title="Veicolo" required="required">
-                                                <form:option value="${vehicle.model}" selected="selected">${vehicle.model}</form:option>
-                                            </form:select>
+                                            <form:input id="vehicle.model" type="text" path="vehicle.model" class="form-control" title="Veicolo" readonly="true" required="required" />
+                                            <form:errors path="vehicle" class="form-control" />
                                         </div>
                                         <div class="form-group">
                                             <form:input type="text" class="form-control" id="dateOfEnd" path="dateOfEnd" placeholder="DATA DI FINE *" onfocus="(this.type='date')" title="Data di Fine" required="required" />

@@ -68,8 +68,8 @@ public class RentalController {
                                     ModelMap model) {
         Rental rental = new Rental();
         Vehicle vehicle = vehicleService.findById(idVehicle);
+        rental.setVehicle(vehicle);
         model.addAttribute("rental", rental);
-        model.addAttribute("vehicle", vehicle);
 
         return "rental-form";
     }
@@ -78,7 +78,6 @@ public class RentalController {
     public String showEditRentalForm(@PathVariable int id,
                                      ModelMap model) {
         Rental rental = rentalService.findById(id);
-        Vehicle vehicle = rental.getVehicle();
         model.addAttribute("rental", rental);
 
         return "rental-form";
