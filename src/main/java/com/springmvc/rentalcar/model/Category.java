@@ -1,5 +1,7 @@
 package com.springmvc.rentalcar.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -19,6 +21,7 @@ public class Category implements Serializable {
     private String typology;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.DETACH)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Vehicle> vehicles;
 
     public Category() {}

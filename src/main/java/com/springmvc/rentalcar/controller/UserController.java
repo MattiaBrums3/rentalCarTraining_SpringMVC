@@ -132,8 +132,15 @@ public class UserController {
         HttpSession session = request.getSession();
         String msg = "";
 
-        userService.deleteUser(id);
-        msg = "Utente eliminato con successo";
+        User user = userService.findById(id);
+
+        if (user.getRentals().isEmpty()) {
+            userService.deleteUser(id);
+            msg = "Utente eliminato con successo";
+        } else {
+            msg = "Impossibile eliminare. L'utente ha prenotato veicoli.";
+        }
+
         session.setAttribute("msg", msg);
 
         return "redirect:/user";

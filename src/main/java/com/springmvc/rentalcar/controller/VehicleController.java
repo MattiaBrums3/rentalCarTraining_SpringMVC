@@ -93,7 +93,6 @@ public class VehicleController {
             vehicleService.updateVehicle(vehicle);
         }
 
-
         return "redirect:/vehicle";
     }
 
@@ -103,8 +102,15 @@ public class VehicleController {
         HttpSession session = request.getSession();
         String msg = "";
 
-        vehicleService.deleteVehicle(id);
-        msg = "Veicolo eliminato con successo";
+        Vehicle vehicle = vehicleService.findById(id);
+
+        if (vehicle.getRentals().isEmpty()) {
+            vehicleService.deleteVehicle(id);
+            msg = "Veicolo eliminato con successo";
+        } else {
+            msg = "Impossibile eliminare. Veicolo prenotato.";
+        }
+
         session.setAttribute("msg", msg);
 
         return "redirect:/vehicle";

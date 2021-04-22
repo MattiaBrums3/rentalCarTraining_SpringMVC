@@ -72,14 +72,13 @@
                                                         </c:forEach>
                                                     </c:forEach>
                                                     <c:if test="${user.getRentals().isEmpty() && vehicleAlreadyRented == false}">
-                                                        <c:set var="emptyRentals" value="true" />
-                                                        <a href="newRental?idV=<c:out value='${vehicle.id}' />"><input type="button" class="btnTable" value="Prenota" /></a>
+                                                        <a href="newRental_<c:out value='${vehicle.id}' />"><input type="button" class="btnTable" value="Prenota" /></a>
                                                     </c:if>
-                                                    <c:if test="${!user.getRentals().isEmpty() && vehicleAlreadyRented == false}">
-                                                        Hai già una prenotazione.
-                                                    </c:if>
-                                                    <c:if test="${vehicleAlreadyRented == true}">
+                                                    <c:if test="${user.getRentals().isEmpty() && vehicleAlreadyRented == true}">
                                                         Veicolo già prenotato.
+                                                    </c:if>
+                                                    <c:if test="${!user.getRentals().isEmpty()}">
+                                                        Hai già una prenotazione.
                                                     </c:if>
                                                 </c:if>
                                             </div>

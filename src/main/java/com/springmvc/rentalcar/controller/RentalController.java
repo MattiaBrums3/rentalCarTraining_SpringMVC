@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -62,10 +63,13 @@ public class RentalController {
         return "redirect:/user";
     }
 
-    @RequestMapping(value = { "/newRental" }, method = RequestMethod.GET)
-    public String showNewRentalForm(ModelMap model) {
+    @RequestMapping(value = { "/newRental_{idVehicle}" }, method = RequestMethod.GET)
+    public String showNewRentalForm(@PathVariable int idVehicle,
+                                    ModelMap model) {
         Rental rental = new Rental();
+        Vehicle vehicle = vehicleService.findById(idVehicle);
         model.addAttribute("rental", rental);
+        model.addAttribute("vehicle", vehicle);
 
         return "rental-form";
     }
@@ -87,19 +91,27 @@ public class RentalController {
                                      HttpServletRequest request) {
 
         if (rental_result.hasErrors()) {
-            System.out.println("errore");
             return "redirect:/user";
         }
 
         HttpSession session = request.getSession();
+        Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
+        User u = userService.findById((int)session.getAttribute("id"));
+        rental.setUser(u);
+        rental.setVehicle(v);
+
+        Date dateStart = rental.getDateOfStart();
+        Date dateEnd = rental.getDateOfEnd();
+        if(dateStart.getTime() > dateEnd.getTime()) {
+            String msg = "Data di Inizio > Data di Fine";
+            session.setAttribute("msg", msg);
+            return "redirect:/user";
+        }
 
         if (rental.getId() == 0) {
+            rental.setApproved(false);
             rentalService.saveRental(rental);
         } else {
-            Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
-            User u = userService.findById((int)session.getAttribute("id"));
-            rental.setUser(u);
-            rental.setVehicle(v);
             rental.setApproved(rental.getApproved());
             rentalService.updateRental(rental);
         }
