@@ -9,6 +9,8 @@ public interface UserDao {
 
     User findByCredentials(String username, String password);
 
+    User findByUsername(String username);
+
     void saveUser(User user);
 
     void deleteUser(int id);

@@ -23,13 +23,13 @@
                 <a class="nav-link" href="vehicle">PARCO AUTO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="editUser_${sessionScope.id}">PROFILO UTENTE</a>
+                <a class="nav-link" href="editUser">PROFILO UTENTE</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="logout" method="post">
+        <form class="form-inline my-2 my-lg-0" action="logout">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link">Bentornato, ${sessionScope.username}</a>
+                    <a class="nav-link">Bentornato, ${loggedinuser}</a>
                 </li>
                 <li class="nav-item">
                     <button class="btnNavbar my-2 my-sm-0" type="submit">LOGOUT</button>

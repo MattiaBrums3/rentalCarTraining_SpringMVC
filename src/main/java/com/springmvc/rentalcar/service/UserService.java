@@ -9,6 +9,8 @@ public interface UserService {
 
     User findByCredentials(String username, String password);
 
+    User findByUsername(String username);
+
     void saveUser(User user);
 
     void updateUser(User user);

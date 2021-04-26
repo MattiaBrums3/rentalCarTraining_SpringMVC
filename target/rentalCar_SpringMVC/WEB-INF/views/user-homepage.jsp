@@ -1,15 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page session="true" %>
 <html>
 <head>
-    <c:if test="${sessionScope.superUser == false}">
-        <title>Customer Homepage</title>
-    </c:if>
-    <c:if test="${sessionScope.superUser == true}">
-        <title>Admin Homepage</title>
-    </c:if>
+    <title>Homepage</title>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -18,7 +14,7 @@
         <div class="col-sm register-right">
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <c:if test="${sessionScope.superUser == true}">
+                    <sec:authorize access="hasRole('ADMIN')">
                         <h1 class="register-heading">Admin Homepage</h1>
                         <div class="row register-form d-flex justify-content-center">
                             <div class="col-md-6">
@@ -28,8 +24,8 @@
                             </div>
                         </div>
                         <jsp:include page="user-list.jsp"/>
-                    </c:if>
-                    <c:if test="${sessionScope.superUser == false}">
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('CUSTOMER')">
                         <h1 class="register-heading">Customer Homepage</h1>
                         <c:if test="${empty listRentals}">
                             <div class="row register-form d-flex justify-content-center">
@@ -114,7 +110,7 @@
                                 </div>
                             </div>
                         </c:if>
-                    </c:if>
+                    </sec:authorize>
                 </div>
             </div>
         </div>

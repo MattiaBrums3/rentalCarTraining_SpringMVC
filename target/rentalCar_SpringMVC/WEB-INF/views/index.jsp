@@ -10,11 +10,22 @@
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <h2 class="active"> ACCEDI A RENTAL CAR </h2>
-
         <form action="login" method="post">
+            <c:if test="${param.error != null}">
+                <div class="alert alert-danger">
+                    <p>Username e Password errati.</p>
+                </div>
+            </c:if>
+            <c:if test="${param.logout != null}">
+                <div class="alert alert-success">
+                    <p>Logout effettuato correttamente.</p>
+                </div>
+            </c:if>
             <input type="text" id="login" class="fadeIn second" name="username" placeholder="Username" required>
             <input type="password" id="login" class="fadeIn third" name="password" placeholder="Password" required>
-            <input type="submit" class="fadeIn fourth" value="ACCEDI">
+            <label id="remember" class="fadeIn fourth"><input type="checkbox" name="rememberMe">Ricordami</label>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <input type="submit" class="fadeIn fifth" value="ACCEDI">
         </form>
     </div>
 </div>
