@@ -10,6 +10,8 @@ import com.springmvc.rentalcar.service.UserService;
 import com.springmvc.rentalcar.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,16 +45,14 @@ public class VehicleController {
     MessageSource messageSource;
 
     @RequestMapping(value = { "/vehicle" }, method = RequestMethod.GET)
-    public String listVehicles(HttpServletRequest request,
-                               ModelMap model) {
-        HttpSession session = request.getSession();
-        int idUser = (int)session.getAttribute("id");
+    public String listVehicles(ModelMap model) {
         List<Vehicle> vehicles = vehicleService.findAllVehicles();
-        User user = userService.findById(idUser);
+        User user = userService.findByUsername(getPrincipal());
         List<Rental> listRentals = rentalService.findAllRentals();
         model.addAttribute("listVehicles", vehicles);
         model.addAttribute("user", user);
         model.addAttribute("listRentals", listRentals);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "vehicles";
     }
@@ -63,6 +63,7 @@ public class VehicleController {
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("vehicle", vehicle);
         model.addAttribute("listCategories", categories);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "vehicle-form";
     }
@@ -74,6 +75,7 @@ public class VehicleController {
         List<Category> listCategories = categoryService.findAllCategories();
         model.addAttribute("vehicle", vehicle);
         model.addAttribute("listCategories", listCategories);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "vehicle-form";
     }
@@ -116,5 +118,18 @@ public class VehicleController {
         session.setAttribute("msg", msg);
 
         return "redirect:/vehicle";
+    }
+
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+
+        return userName;
     }
 }

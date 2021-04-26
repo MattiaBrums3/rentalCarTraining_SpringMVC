@@ -55,7 +55,7 @@
                                         <form:errors path="fiscalCode" class="form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" class="form-control" id="password" path="password" placeholder="PASSWORD *" title="Password" required="required" />
+                                        <form:input type="password" class="form-control" id="password" path="password" placeholder="PASSWORD *" title="Password" required="required" />
                                         <form:errors path="password" class="form-control" />
                                     </div>
                                     <c:if test="${user.id == 0}">

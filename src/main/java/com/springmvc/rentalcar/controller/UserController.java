@@ -84,8 +84,11 @@ public class UserController {
     @RequestMapping(value = {"/user" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
+        User user = userService.findByUsername(getPrincipal());
+        List<Rental> listRentals = rentalService.findByUserId(user.getId());
         List<User> users = userService.findAllUsers();
         model.addAttribute("listUsers", users);
+        model.addAttribute("listRentals", listRentals);
         model.addAttribute("loggedinuser", getPrincipal());
 
         return "user-homepage";

@@ -42,6 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/newUser","/deleteUser_*").access("hasRole('ADMIN')")
                 .antMatchers("/newVehicle","/editVehicle_*","/deleteVehicle_*").access("hasRole('ADMIN')")
                 .antMatchers("/category","/newCategory","/editCategory_*","/deleteCategory_*").access("hasRole('ADMIN')")
+                .antMatchers("/rentals_*","/newRental","/deleteRental_*").access("hasRole('ADMIN') or hasRole('CUSTOMER')")
+                .antMatchers("/editRental_*").access("hasRole('CUSTOMER')")
                 .and().formLogin().loginPage("/").loginProcessingUrl("/login").successHandler(authSuccessHandler())
                 .usernameParameter("username").passwordParameter("password").and().rememberMe().rememberMeParameter("rememberMe")
                 .tokenRepository(tokenRepository).tokenValiditySeconds(86400).and().csrf().and().exceptionHandling()

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page session="true" %>
 <html>
 <head>
@@ -38,11 +39,11 @@
                                     <th class="th-sm">Anno Immatr.</th>
                                     <th class="th-sm">Categoria</th>
                                     <th class="th-sm">
-                                        <c:if test="${sessionScope.superUser == true}">
+                                        <sec:authorize access="hasRole('ADMIN')">
                                             <div class="d-flex justify-content-center">
                                                 <a href="newVehicle"><input type="button" class="btnTable" value="Nuovo Veicolo" /></a>
                                             </div>
-                                        </c:if>
+                                        </sec:authorize>
                                     </th>
                                 </tr>
                                 </thead>
@@ -57,12 +58,12 @@
                                         <td><c:out value="${vehicle.category.typology}" /></td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <c:if test="${sessionScope.superUser == true}">
+                                                <sec:authorize access="hasRole('ADMIN')">
                                                     <a href="editVehicle_<c:out value='${vehicle.id}' />"><input type="button" class="btnTable" value="Modifica" /></a>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                     <a href="deleteVehicle_<c:out value='${vehicle.id}' />"><input type="button" class="btnTable" value="Elimina" /></a>
-                                                </c:if>
-                                                <c:if test="${sessionScope.superUser == false}">
+                                                </sec:authorize>
+                                                <sec:authorize access="hasRole('CUSTOMER')">
                                                     <c:set var="vehicleAlreadyRented" value="false" />
                                                     <c:forEach var="v_rental" items="${vehicle.getRentals()}">
                                                         <c:forEach var="rental" items="${listRentals}">
@@ -80,7 +81,7 @@
                                                     <c:if test="${!user.getRentals().isEmpty()}">
                                                         Hai già una prenotazione.
                                                     </c:if>
-                                                </c:if>
+                                                </sec:authorize>
                                             </div>
                                         </td>
                                     </tr>

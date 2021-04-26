@@ -8,6 +8,8 @@ import com.springmvc.rentalcar.service.UserService;
 import com.springmvc.rentalcar.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -40,6 +42,7 @@ public class RentalController {
                                  ModelMap model) {
         List<Rental> listRentals = rentalService.findByUserId(id);
         model.addAttribute("listRentals", listRentals);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "rental-list";
     }
@@ -48,7 +51,6 @@ public class RentalController {
     public String approveRental(HttpServletRequest request,
                                 @PathVariable Boolean approved,
                                 @PathVariable int id) {
-        HttpSession session = request.getSession();
         Rental rental = rentalService.findById(id);
 
         if (approved == true) {
@@ -68,6 +70,7 @@ public class RentalController {
         Vehicle vehicle = vehicleService.findById(idVehicle);
         rental.setVehicle(vehicle);
         model.addAttribute("rental", rental);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "rental-form";
     }
@@ -77,6 +80,7 @@ public class RentalController {
                                      ModelMap model) {
         Rental rental = rentalService.findById(id);
         model.addAttribute("rental", rental);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "rental-form";
     }
@@ -100,7 +104,7 @@ public class RentalController {
         }
 
         Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
-        User u = userService.findById((int)session.getAttribute("id"));
+        User u = userService.findByUsername(getPrincipal());
         rental.setUser(u);
         rental.setVehicle(v);
 
@@ -126,5 +130,18 @@ public class RentalController {
         session.setAttribute("msg", msg);
 
         return "redirect:/user";
+    }
+
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+
+        return userName;
     }
 }

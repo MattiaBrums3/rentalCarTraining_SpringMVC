@@ -4,6 +4,8 @@ import com.springmvc.rentalcar.model.Category;
 import com.springmvc.rentalcar.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,7 @@ public class CategoryController {
     public String listCategories(ModelMap model) {
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("listCategories", categories);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "categories";
     }
@@ -40,6 +43,7 @@ public class CategoryController {
         Category category = new Category();
 
         model.addAttribute("category", category);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "category-form";
     }
@@ -49,6 +53,7 @@ public class CategoryController {
                                    ModelMap model) {
         Category category = categoryService.findById(id);
         model.addAttribute("category", category);
+        model.addAttribute("loggedinuser", getPrincipal());
 
         return "category-form";
     }
@@ -88,6 +93,18 @@ public class CategoryController {
         session.setAttribute("msg", msg);
 
         return "redirect:/category";
+    }
 
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+
+        return userName;
     }
 }
