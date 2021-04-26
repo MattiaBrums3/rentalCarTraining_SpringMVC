@@ -62,6 +62,6 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
         PersistentLogin persistentLogin = getByKey(seriesId);
         persistentLogin.setToken(tokenValue);
         persistentLogin.setLastUsed(lastUsed);
-        //update(persistentLogin);
+        update(persistentLogin);
     }
 }

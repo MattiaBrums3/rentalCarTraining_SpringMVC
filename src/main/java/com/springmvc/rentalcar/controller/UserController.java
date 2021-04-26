@@ -56,7 +56,11 @@ public class UserController {
 
     @RequestMapping(value={"/"}, method=RequestMethod.GET)
     public String getHomepage(ModelMap model) {
-        return "index";
+        if (isCurrentAuthenticationAnonymous()) {
+            return "index";
+        } else {
+            return "redirect:/user";
+        }
     }
 
     @RequestMapping(value={"/login"}, method=RequestMethod.GET)
