@@ -35,6 +35,7 @@
                                         <div class="form-group">
                                             <form:input id="vehicle.model" type="text" path="vehicle.model" class="form-control" title="Veicolo" readonly="true" required="required" />
                                             <form:errors path="vehicle" class="form-control" />
+                                            <form:hidden path="vehicle.id" />
                                         </div>
                                         <div class="form-group">
                                             <form:input type="text" class="form-control" id="dateOfEnd" path="dateOfEnd" placeholder="DATA DI FINE *" onfocus="(this.type='date')" title="Data di Fine" required="required" />

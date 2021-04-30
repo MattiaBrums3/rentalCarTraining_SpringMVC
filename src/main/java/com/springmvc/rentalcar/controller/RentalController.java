@@ -103,7 +103,7 @@ public class RentalController {
             return "redirect:/user";
         }
 
-        Vehicle v = vehicleService.findByModel(rental.getVehicle().getModel());
+        Vehicle v = vehicleService.findById(rental.getVehicle().getId());
         User u = userService.findByUsername(getPrincipal());
         rental.setUser(u);
         rental.setVehicle(v);
